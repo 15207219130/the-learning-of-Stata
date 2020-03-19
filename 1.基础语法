@@ -1,0 +1,19 @@
+di 5+9 # 基本的四则运算
+di exp(2) # 计算自然对数
+
+sum=summarize x #描述一组数据基本的参量：个数、平均值、最大值、最小值、标准差
+# obs-个数；
+# mean-平均值
+#std.dev-标准差
+
+#生成一组数据x=1:1000，y=x+100;
+set obs 1000  #个数为1000
+gen x=_n  #生成x=1:1000
+gen y=x+100
+
+#显示结果
+list x  #显示所有的x
+
+#读取数据
+cd d:/auto  #定位数据的位置
+mkidr d:/mydate #在d盘根目录下创建一个名为mydata的文件
