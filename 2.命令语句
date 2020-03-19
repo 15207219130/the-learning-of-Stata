@@ -1,0 +1,26 @@
+cd d:/stata9  #定位数据文件的位置
+use auto  #打开数据文件
+
+#分类操作
+by foreign:sum price weight #按变量foreign的种类进行分类，变量foreign有foreign和domestic两种，分好类别以后统计
+sort price  #按价格从低到高重新排序
+sort -price #按价格从高到低排序
+
+#赋值及运算
+gen nprice=price+10 #创建新变量，数值为price+10
+replace nprcie=nprice-10  #直接改变原变量的赋值
+
+#条件表达式 if exp
+list make price if foreign==0  #查看国产车的价格
+list make price if foreign==0 & price>100 #查看同时满足两个条件的国产车价格
+list make price if foreign==0 | price>100  #查看满足任意一个条件的国产车价格 
+by foreign，sort：list make price if price>100  #分类型查看价格大于100的价格和车型
+
+#范围筛选 in range
+sort price  #首先排序按照从低到高的顺序
+sum price in 1/5 if foreign==0  #这里的/表示从1到5的意思，后面可以承接条件语句
+
+#权重重量
+#以一分一段表为例，每个分数都有对应的人数，现在需要求640分以上考生的平均分
+#score表示分数，num表示该分数对应的人数
+sum score[weight=num]
