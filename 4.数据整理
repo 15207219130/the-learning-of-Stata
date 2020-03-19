@@ -1,0 +1,40 @@
+#数据的拆分与合并
+#原始数据为一个学生成绩表格，包含基本信息和成绩
+
+#拆分原始数据文件为基本信息文件
+drop economy math #删除数学成绩和经济学成绩两个变量
+save student，replace  #将删除后的数据集保存为当前路径，名称为student 
+
+#拆分成经济学成绩文件
+keap id economy
+save economy，replace
+
+#纵向拆分文件，分别为男生数据和女生数据
+keep if gender==0 #仅保留女生的数据在当前文件
+drop if gender==1 #删除男生数据在当前文件
+
+#连接数据集
+#纵向合并数据
+#将男生数据集合女生数据集合并在新的文件中
+use male，clear
+append using female
+save mydata，replace
+
+#横向合并数据
+#将学生基本信息和学生成绩合并成新的数据文件
+use economy，clear #打开经济学成绩文件
+sort id #按id排序
+save economy，replace
+use student，clear
+sort id
+merge id using economy  #将学号关联，学生成绩和学号一一对应
+tab_merge  #显示对接情况，3表示成功对接
+drope_merge #去掉标识是否成功对接变量
+save mydata2，replace  #保存数据文件
+use math,clear
+sort id
+merge id use mydata2
+drop_merge
+save mydada2,replace
+
+
