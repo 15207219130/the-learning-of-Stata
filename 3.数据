@@ -1,0 +1,25 @@
+#stata的数据一般分为字符型、数值型、日期型
+
+#用到的数据文件
+.webuse tostring, clear
+
+#数值型变量
+set obs 1 #设定一个观察值
+gen a=1 #生成一个新变量，值为1
+d #describe 的缩写，会显示数据集的属性信息，会发现a 的 strong type 为float
+compress  #在不损害信息的基础上尽可能压缩
+
+#数据类型转化
+
+#将字符型转化成数值型 destring
+destring date,replace #将变量转换成数值型
+destring date,replace ignore(" ") #在上述语句的基础上忽略掉空格，因为存在空格的话无法转化
+
+#数值型转化成字符型 tostring
+tostring year day，replace #将年和日转化成字符型
+gen data1=month+"/"+day+"/"+year
+
+
+
+
+
